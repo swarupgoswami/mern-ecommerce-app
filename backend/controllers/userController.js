@@ -88,7 +88,7 @@ const getspecifiedUser=asyncHandler(async(req,res)=>{
      if(user){
         res.json({
             id:user._id,
-            name:user.name,
+            name:user.username,
 
         })
      }
@@ -98,17 +98,64 @@ const getspecifiedUser=asyncHandler(async(req,res)=>{
 })
 
 const updateUser =asyncHandler(async (req,res)=>{
-    user= await userModel.findById(req.user._id)
+    const user= await userModel.findById(req.user._id)
 
     if(user){
         user.username=req.body.username || user.username;
 
         user.email=req.body.email || user.email;
+        // res.json({
+        //     username:user.username,
+        //     email:user.email
+        // })
         if(req.body.password){
+            // ;
+            const salt=await bcrypt.genSalt(10);
+            const hashpassword=await bcrypt.hash(req.body.password,salt);
+            user.password=hashpassword;
+
             
         }
+        await user.save(); 
+        res.json({
+            id:user._id,
+            username: user.username,
+            email: user.email
+
+        })
+    }
+    else{
+        res.status(404)
+        throw new Error("user not found");
     }
 
 })
 
-export { createuser,loginUser,logoutUser, getallUser,getspecifiedUser, updateUser };
+const deletespecificUser=asyncHandler(async (req,res)=>{
+
+    const user=await userModel.findById(req.params.id)
+
+    if(user){
+        if(user.isAdmin){
+            res.status(400);
+            throw new Error("user is admin");
+        }
+        await user.deleteOne({_id:user._id});
+        res.json({message:"user removed"})
+    }else{
+        res.staus(404).json({message:"user doesnt exist"});
+    }
+})
+
+const getuserbyId=asyncHandler(async(req,res)=>{
+    const user= await userModel.findById(req.params.id).select("-password");
+    if(user){
+        res.json(user);
+    }
+    else{
+        res.staus(404);
+        throw new Error("user not found");
+    }
+})
+
+export { createuser,loginUser,logoutUser, getallUser,getspecifiedUser, updateUser , deletespecificUser , getuserbyId };
