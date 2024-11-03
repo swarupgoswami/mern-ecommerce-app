@@ -158,4 +158,26 @@ const getuserbyId=asyncHandler(async(req,res)=>{
     }
 })
 
-export { createuser,loginUser,logoutUser, getallUser,getspecifiedUser, updateUser , deletespecificUser , getuserbyId };
+const updateuserById = asyncHandler(async(req,res)=>{
+    const user= await userModel.findById(req.params.id)
+    if(user){
+        user.username=req.body.username || user.username;
+
+        user.email=req.body.email || user.email;
+        user.isAdmin=Boolean(req.body.isAdmin) || user.isAdmin
+
+        await user.save()
+        res.json({
+            username:user.username,
+            email:user.email,
+            isadmin:user.isAdmin
+
+        })
+    }else{
+        res.staus(404);
+        throw new Error("user not found");
+    }
+
+})
+
+export { createuser,loginUser,logoutUser, getallUser,getspecifiedUser, updateUser , deletespecificUser , getuserbyId , updateuserById};
