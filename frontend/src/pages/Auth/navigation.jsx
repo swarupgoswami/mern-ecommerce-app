@@ -1,5 +1,5 @@
 import { useState } from "react"
-import {AiOutlineHome,AiOutlineShopping, AiOutlineLogin,AiOutlineUserAdd,AiOutlineShoppingCart} from "react-icons/ai"
+import { AiOutlineHome, AiOutlineShopping, AiOutlineLogin, AiOutlineUserAdd, AiOutlineShoppingCart } from 'react-icons/ai';
 import {FaHeart} from "react-icons/fa"
 import{Link} from "react-router-dom"
 import { useNavigate } from "react-router-dom"
@@ -31,16 +31,16 @@ const Navigation = () => {
           <AiOutlineHome className="mr-2 mt-[3rem] " size={26}/>
           <span className="hidden nav-item-name mt-[3rem]">Home</span>{" "}
         </Link>
-        <Link to="/" className="flex items-center transition-transform transform hover:translate-x-2">
+        <Link to="" className="flex items-center transition-transform transform hover:translate-x-2">
           <AiOutlineHome className="mr-2 mt-[3rem] " size={26}/>
           <span className="hidden nav-item-name mt-[3rem]">Home</span>{" "}
         </Link>
-        <Link to="/" className="flex items-center transition-transform transform hover:translate-x-2">
+        <Link to="" className="flex items-center transition-transform transform hover:translate-x-2">
           <AiOutlineShopping className="mr-2 mt-[3rem] " size={26}/>
           <span className="hidden nav-item-name mt-[3rem]">Home</span>{" "}
         </Link>
-        <Link to="/" className="flex items-center transition-transform transform hover:translate-x-2">
-          <AiOutlineShoppingCart className="mr-2 mt-[3rem] " size={26}/>
+        <Link to="" className="flex items-center transition-transform transform hover:translate-x-2">
+          <FaHeart className="mr-2 mt-[3rem] " size={26}/>
           <span className="hidden nav-item-name mt-[3rem]">Home</span>{" "}
         </Link>
       </div>
