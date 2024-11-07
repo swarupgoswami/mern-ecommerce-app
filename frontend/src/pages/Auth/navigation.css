@@ -8,12 +8,12 @@
     width: 15%;
 }
 
-.nav-items-name{
+.nav-item-name{
     display: none;
     transition: opacity 0.2s ease-in-out;
 }
 
-#navigation-container:hover .nav-items-name{
+#navigation-container:hover .nav-item-name{
     display: block;
     opacity: 1;
 }
