@@ -31,6 +31,8 @@ const Navigation = () => {
   const dispatch=useDispatch()
   const navigate=useNavigate()
 
+  const [logoutApiCall]=useLoginMutation()
+
   return (
   <>
      <div style={{zIndex:999}} className={`${sideBar ? "hidden" : "flex"} xl:flex lg:flex md:hidden sm:hidden flex-col justify-between p-4 text-white bg-black w-[4%] hover:[15%] h-[100vh] fixed`}
