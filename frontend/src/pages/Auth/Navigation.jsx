@@ -33,10 +33,20 @@ const Navigation = () => {
 
   const [logoutApiCall]=useLoginMutation()
 
+  const logOutHandler= async()=>{
+    try {
+      await logoutApiCall().unwrap();
+      dispatch(logout());
+      navigate('/login');
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
   <>
      <div style={{zIndex:999}} className={`${sideBar ? "hidden" : "flex"} xl:flex lg:flex md:hidden sm:hidden flex-col justify-between p-4 text-white bg-black w-[4%] hover:[15%] h-[100vh] fixed`}
-         id="navigation-container">
+         id="navigation-container"> 
       <div className="flex flex-col justify-center space-y-4">
         <Link to="/" className="flex items-center transition-transform transform hover:translate-x-2">
           <AiOutlineHome className="mr-2 mt-[3rem] " size={26} style={{ color: 'white' }}/>
@@ -58,8 +68,7 @@ const Navigation = () => {
 
       <div className="relative">
         <button onClick={toggleDropdown} className="flex items-center text-gray-8000 focus:outline-none">
-
-
+          {userInfo? <span className="text-black">{userInfo.username}</span>:<></>}
         </button>
       </div>
 
