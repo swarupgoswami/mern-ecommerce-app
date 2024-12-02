@@ -5,13 +5,14 @@ import{Link} from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import "./Navigation.css";
 import {useSelector,useDispatch} from "react-redux"
-import { useLoginMutation } from "../../redux/api/usersApiSlice";
+import { useLogoutMutation } from "../../redux/api/usersApiSlice";
 import { logout } from "../../redux/features/auth/authSlice";
 
 
 const Navigation = () => {
 
-  const {userInfo} = useSelector(state => state.auth)
+  const {userinfo} = useSelector(state => state.auth)
+  console.log(userinfo)
   const [dropDown, setdropDown]=useState(false);
   const [sideBar,setsideBar]=useState(false);
 
@@ -31,7 +32,7 @@ const Navigation = () => {
   const dispatch=useDispatch()
   const navigate=useNavigate()
 
-  const [logoutApiCall]=useLoginMutation()
+  const [logoutApiCall]=useLogoutMutation()
 
   const logOutHandler= async()=>{
     try {
@@ -68,14 +69,78 @@ const Navigation = () => {
 
       <div className="relative">
         <button onClick={toggleDropdown} className="flex items-center text-gray-8000 focus:outline-none">
-          {userInfo? <span className="text-black">{userInfo.username}</span>:<></>}
+          {userinfo? <span className="text-white">{userinfo.email}</span>:<></>}
+
+          {userinfo && (
+            <svg
+            xmls="http://www.w3.org/2000/svg"
+            className={`h-4 w-4 ml-1 ${
+              dropDown ? "transform rotate-180":""
+            }`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="white"
+            >
+              <path
+                 strokeLinecap="round"
+                 strokeLinejoin="round"
+                 strokeWidth='2'
+                 d={dropDown ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"} />
+
+            </svg>
+          )}
         </button>
+
+
+          {dropDown && userinfo && (
+            <ul className={`absolute right-0 mt-2 mr-14 space-y-2 bg-white text-gray-600 ${!userinfo.isAdmin?'-top-20':'-top-80'}`}>
+              {userinfo.isAdmin && (
+                <>
+                 <li>
+                 <Link to='/admin/dashboard' className="block px-4 py-2 hover:bg-gray-100">Dashboard</Link>
+                 </li>
+
+
+                 <li>
+                 <Link to='/admin/dashboard' className="block px-4 py-2 hover:bg-gray-100">Dashboard</Link>
+                 </li>
+
+                 <li>
+                 <Link to='/admin/productlist' className="block px-4 py-2 hover:bg-gray-100">Products</Link>
+                 </li>
+
+                 <li>
+                 <Link to='/admin/orderlist' className="block px-4 py-2 hover:bg-gray-100">Order</Link> 
+                 </li>
+
+
+                 <li>
+                 <Link to='/admin/userlist' className="block px-4 py-2 hover:bg-gray-100">user</Link> 
+                 </li>
+
+
+                
+                   
+                </>
+              )}
+               <li>
+                 <Link to='/profile' className="block px-4 py-2 hover:bg-gray-500">profile</Link> 
+                 </li>
+
+
+                 <li>
+                 <button className="block px-4 py-2 hover:bg-gray-500"
+                 onClick={logOutHandler}>logout</button> 
+                 </li>
+            </ul>
+          )}
+
       </div>
 
 
 
-
-      <ul>
+      {!userinfo && (
+        <ul>
         <li>
           <Link to="/login" className="flex items-center transition-transform transform hover:translate-x-2">
           <AiOutlineLogin className="mr-2 mt-[3rem] " size={26}/>
@@ -92,6 +157,8 @@ const Navigation = () => {
         </li>
 
       </ul>
+      )}
+      
     </div>
   </>
 
